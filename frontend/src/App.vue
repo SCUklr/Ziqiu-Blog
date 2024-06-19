@@ -1,12 +1,28 @@
 <template>
   <div id="app">
-    <router-view />
+    <NavigationBar v-if="!isAdminPage" />
+    <div :class="['main-content', { 'admin-content': isAdminPage }]">
+      <router-view />
+    </div>
+    <FooterBar v-if="!isAdminPage" />
   </div>
 </template>
 
 <script>
+import NavigationBar from './components/NavigationBar.vue';
+import FooterBar from './components/FooterBar.vue';
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    NavigationBar,
+    FooterBar,
+  },
+  computed: {
+    isAdminPage() {
+      return this.$route.matched.some(record => record.path.startsWith('/admin'));
+    },
+  },
 };
 </script>
 
@@ -16,7 +32,8 @@ body {
   padding: 0;
   font-family: 'Roboto', sans-serif;
   position: relative;
-  overflow: hidden;
+  height: 100%;
+  overflow: auto;
 }
 
 body::before {
@@ -28,20 +45,28 @@ body::before {
   height: 100%;
   background: url('@/assets/blog_bg.jpg') no-repeat center center fixed;
   background-size: cover;
-  opacity: 0.9; /* 设置背景图片透明度 */
-  z-index: -1; /* 确保背景图片在所有内容的下面 */
+  opacity: 0.9;
+  z-index: -1;
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  position: relative;
-  z-index: 0; /* 确保内容在背景图片的上面 */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 60px; /* Adjust this value to match navbar height */
+}
+
+.admin-content {
+  flex: 1;
+  padding-top: 0; /* No padding for admin content */
+  background-color: #f5f5f5; /* Different background for admin */
+}
+
+.footer {
   width: 100%;
-  height: 100%;
 }
 </style>

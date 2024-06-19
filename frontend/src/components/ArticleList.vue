@@ -1,81 +1,83 @@
 <template>
-    <div>
-      <el-row :gutter="20">
-        <el-col v-for="article in paginatedArticles" :key="article.id" :span="8">
-          <el-card :body-style="{ padding: '0px' }">
-            <img :src="article.cover" class="image" />
-            <div style="padding: 14px;">
-              <span>{{ article.title }}</span>
-              <div class="bottom clearfix">
-                <time class="time">{{ article.date }}</time>
-                <el-button type="text" class="button">查看详情</el-button>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-      <div class="pagination">
-        <el-pagination
-          layout="prev, pager, next"
-          :total="articles.length"
-          :page-size="pageSize"
-          @current-change="handlePageChange"
-        ></el-pagination>
-      </div>
+  <div class="article-list">
+    <el-row :gutter="20" class="article-list-row">
+      <el-col v-for="article in paginatedArticles" :key="article.id" :span="24" class="article-column">
+        <article-card 
+          :id="article.id"
+          :title="article.title"
+          :cover="article.cover"
+          :date="article.date"
+        />
+      </el-col>
+    </el-row>
+    <div class="pagination">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="articles.length"
+        :page-size="pageSize"
+        @current-change="handlePageChange"
+      ></el-pagination>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'ArticleList',
-    data() {
-      return {
-        articles: [
-          { id: 1, title: '文章标题1', cover: 'path/to/cover1.jpg', date: '2023-07-10' },
-          { id: 2, title: '文章标题2', cover: 'path/to/cover2.jpg', date: '2023-06-28' },
-          // 更多文章数据...
-        ],
-        currentPage: 1,
-        pageSize: 5
-      };
+  </div>
+</template>
+
+<script>
+import ArticleCard from './ArticleCard.vue';
+
+export default {
+  name: 'ArticleList',
+  components: {
+    ArticleCard
+  },
+  data() {
+    return {
+      articles: [
+        { id: 'article1', title: '文章标题1', cover: '/images/cover1.jpg', date: '2023-07-10' },
+        { id: 'article2', title: '文章标题2', cover: '/images/cover2.jpg', date: '2023-06-28' },
+        { id: 'article3', title: '文章标题3', cover: '/images/cover3.jpg', date: '2023-11-14' },
+        { id: 'article4', title: '文章标题4', cover: '/images/cover4.jpg', date: '2023-11-14' },
+        { id: 'article5', title: '文章标题5', cover: '/images/cover5.jpg', date: '2023-07-10' },
+      ],
+      currentPage: 1,
+      pageSize: 5,
+    };
+  },
+  computed: {
+    paginatedArticles() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      const end = this.currentPage * this.pageSize;
+      return this.articles.slice(start, end);
     },
-    computed: {
-      paginatedArticles() {
-        const start = (this.currentPage - 1) * this.pageSize;
-        const end = this.currentPage * this.pageSize;
-        return this.articles.slice(start, end);
-      }
+  },
+  methods: {
+    handlePageChange(page) {
+      this.currentPage = page;
     },
-    methods: {
-      handlePageChange(page) {
-        this.currentPage = page;
-      }
-    }
-  };
-  </script>
-  
-  <style scoped>
-  .image {
-    width: 100%;
-    display: block;
-  }
-  
-  .bottom {
-    margin-top: 10px;
-    line-height: 12px;
-  }
-  
-  .button {
-    float: right;
-    padding: 0;
-    margin: 0;
-    font-size: 12px;
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  </style>
-  
+  },
+};
+</script>
+
+<style scoped>
+.article-list {
+  width: 100%;
+  margin-top: 0;
+}
+
+.article-list-row {
+  margin-top: 0;
+}
+
+.article-column:first-child .article-card {
+  margin-top: 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.el-row {
+  margin-bottom: 20px;
+}
+</style>

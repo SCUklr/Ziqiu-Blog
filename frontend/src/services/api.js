@@ -1,16 +1,17 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000/api',  // 确保这里指向 Flask 后端的 5000 端口
-  withCredentials: false,
+  baseURL: process.env.VUE_APP_API_URL,
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 });
 
 export default {
-  getPosts() {
-    return apiClient.get('/posts');
-  }
+  getArticles() {
+    return apiClient.get('/articles');
+  },
+  getArticle(id) {
+    return apiClient.get(`/articles/${id}`);
+  },
 };

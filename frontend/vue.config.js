@@ -1,4 +1,3 @@
-// vue.config.js
 module.exports = {
   transpileDependencies: true,
   css: {
@@ -10,4 +9,12 @@ module.exports = {
       },
     },
   },
+  chainWebpack: config => {
+    config.module
+      .rule('md')
+      .test(/\.md$/)
+      .use('raw-loader')
+      .loader('raw-loader')
+      .end();
+  }
 };

@@ -1,6 +1,8 @@
 <template>
   <div class="home-page">
-    <NavigationBar />
+    <div class="quote-section">
+      <QuoteDisplay />
+    </div>
     <div class="content">
       <div class="main-content">
         <ArticleList />
@@ -13,17 +15,17 @@
 </template>
 
 <script>
-import NavigationBar from '../components/NavigationBar.vue';
 import ArticleList from '../components/ArticleList.vue';
 import ContactCard from '../components/ContactCard.vue';
+import QuoteDisplay from '../components/QuoteDisplay.vue';
 
 export default {
   name: 'HomePage',
   components: {
-    NavigationBar,
     ArticleList,
-    ContactCard
-  }
+    ContactCard,
+    QuoteDisplay,
+  },
 };
 </script>
 
@@ -31,21 +33,40 @@ export default {
 .home-page {
   display: flex;
   flex-direction: column;
-  padding-top: 60px; /* 确保内容不会被导航栏覆盖 */
+  align-items: center;
+  background: transparent; /* 确保背景透明 */
+}
+
+.quote-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .content {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
   padding: 20px;
+  box-sizing: border-box;
+  margin-top: 10px;
+  background: transparent; /* 确保背景透明 */
 }
 
 .main-content {
   flex: 1;
+  max-width: 600px;
   margin-right: 20px;
+  /* border: 1px solid blue; 调试边框 */
+  padding: 0px;
+  background: transparent; /* 确保背景透明 */
 }
 
 .sidebar {
-  width: 300px; /* 设置侧边栏宽度 */
+  width: 300px;
+  /* border: 1px solid yellow; 调试边框 */
+  background: transparent; /* 确保背景透明 */
 }
 </style>
